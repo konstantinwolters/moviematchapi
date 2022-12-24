@@ -1,0 +1,9 @@
+insert into session (id, uuid, last_access) values (110, 'testhash', '2022-12-16');
+insert into genre (id, session_id, tmdb_genre_id) values (111, 110, 12);
+insert into genre (id, session_id, tmdb_genre_id) values (112, 110, 14);
+insert into genre (id, session_id, tmdb_genre_id) values (113, 110, 36);
+insert into users (id, name, session_id) values (111, 'Peter', 110);
+insert into users (id, name, session_id) values (112, 'Wolfgang', 110);
+insert into users (id, name, session_id) values (113, 'Wilfried', 110);
+insert into likes (id, tmdb_movie_id, user_id) values (110, 123, 111);
+insert into likes (id, tmdb_movie_id, user_id) values (111, 123, 112);
