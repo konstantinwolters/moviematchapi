@@ -1,9 +1,14 @@
 package com.example.moviematchapi.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -14,13 +19,11 @@ import lombok.*;
 public class Genre {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
+    private String name;
 
-    private Integer tmdbGenreId;
-
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Session session;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "genres")
+    private Set<Session> sessions = new HashSet<>();
 
 }
