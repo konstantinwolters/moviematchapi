@@ -20,10 +20,10 @@ public class LikeController {
         }
     }
 
-    @GetMapping("/like/matchedLikeCount/{sessionUuid}/{tmdbMovieId}")
-    public Integer getMatchedLikeCount(@PathVariable String sessionUuid, @PathVariable Integer tmdbMovieId){
+    @GetMapping("/like/matchedLikeCount/{sessionId}/{tmdbMovieId}")
+    public Integer getMatchedLikeCount(@PathVariable String sessionId, @PathVariable Integer tmdbMovieId){
 
-        return likeRepository.getMatchedLikeCount(sessionUuid, tmdbMovieId);
+        return likeRepository.getMatchedLikeCount(sessionId, tmdbMovieId);
     }
 }
 

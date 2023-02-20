@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class NewSessionRequestDTO {
+public class NewSessionRequestDto {
     List<String> names;
-    List<Integer> genres;
+    List<String> genres;
 }

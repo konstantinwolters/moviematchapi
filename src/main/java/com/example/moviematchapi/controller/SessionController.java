@@ -1,6 +1,6 @@
 package com.example.moviematchapi.controller;
 
-import com.example.moviematchapi.dto.NewSessionRequestDTO;
+import com.example.moviematchapi.dto.NewSessionRequestDto;
 import com.example.moviematchapi.exception.customException.NoSuchSessionException;
 import com.example.moviematchapi.exception.customException.NoSuchUserInSessionException;
 import com.example.moviematchapi.model.Genre;
@@ -42,32 +42,28 @@ public class SessionController {
 
     @PostMapping("/session")
     public Session newSession(
-            @RequestBody NewSessionRequestDTO newSessionRequest) {
+            @RequestBody NewSessionRequestDto newSessionRequest) {
         Session session = new Session();
         newSessionRequest.getNames()
                 .forEach(name -> session.addUser(User.builder().name(name).build()));
 
-        // TODO: FIX !!!!
-        // if(newSessionRequest.getGenres() != null){
-        // newSessionRequest.getGenres()
-        // .forEach(genreId ->
-        // session.addGenre(Genre.builder().tmdbGenreId(genreId).build()));
-        // }
-        session.setUuid(sessionService.returnSessionUuid());
+        if(newSessionRequest.getGenres() != null){
+            newSessionRequest.getGenres()
+                    .forEach(Genre -> session.addGenre(genreRepository.findById(Integer.valueOf(Genre)).get()));
+        }
         session.setLastAccess(LocalDate.now());
-        sessionRepository.save(session);
+        return sessionRepository.save(session);
 
-        return session;
     }
 
-    @GetMapping("/session/{sessionUuid}/{userId}")
-    public Session retrieveSession(@PathVariable String sessionUuid, @PathVariable Long userId) {
-        Session session = sessionRepository.findByUuid(sessionUuid)
-                .orElseThrow(() -> new NoSuchSessionException("Session does not exist: " + sessionUuid));
+    @GetMapping("/session/{sessionId}/{userId}")
+    public Session retrieveSession(@PathVariable String sessionId, @PathVariable Long userId) {
+        Session session = sessionRepository.findById(sessionId)
+                .orElseThrow(() -> new NoSuchSessionException("Session does not exist: " + sessionId));
 
         if (session.getUsers().stream().noneMatch(user -> user.getId().equals(userId))) {
             throw new NoSuchUserInSessionException(
-                    "User Id '" + userId + "' does not exist in Session: " + sessionUuid);
+                    "User Id '" + userId + "' does not exist in Session: " + sessionId);
         }
         return session;
     }

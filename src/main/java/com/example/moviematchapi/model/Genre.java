@@ -1,6 +1,7 @@
 package com.example.moviematchapi.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
@@ -18,9 +19,10 @@ import java.util.Set;
 public class Genre {
 
     @Id
-    private Long id;
+    private Integer id;
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "genres")
     private Set<Session> sessions = new HashSet<>();
 

@@ -18,9 +18,8 @@ import java.util.*;
 public class Session {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String uuid;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate lastAccess;
@@ -28,6 +27,7 @@ public class Session {
     @JsonManagedReference
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> users = new ArrayList<>();
+
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "genres_session", joinColumns = @JoinColumn(name = "session_id"), inverseJoinColumns = @JoinColumn(name = "genre_id"))
